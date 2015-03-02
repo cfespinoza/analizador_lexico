@@ -3,7 +3,7 @@ package analizador_lexico;
 public abstract class UnidadLexica {
 	   private ClaseLexica clase;
 	   private int fila;
-	   private int columna;
+	   private int columna; 
 	   public UnidadLexica(int fila, int columna, ClaseLexica clase) {
 	     this.fila = fila;
 	     this.columna = columna;

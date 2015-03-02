@@ -39,6 +39,25 @@ public enum ClaseLexica {
 	PAP,
 	PCIERRE,
 	NULL,
-	LITENTPOS
+	LITENTPOS,
+	ASIGN,
+	IN,
+	OUT,
+	ALLOC,
+	FREE,
+	IF,
+	ELSE,
+	ELSEIF,
+	THEN,
+	ENDIF,
+	WHILE,
+	DO,
+	ENDWHILE,
+	CARACTER,
+	/*Clases auxiliares*/
+	DIGITO,
+	DIGITOPOS,
+	BARRABAJA,
+	EOF
 }
 
