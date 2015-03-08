@@ -101,7 +101,11 @@ public class AnalizadorLexico {
 	}
 
 	private boolean hayLetra() {
-		return sigCar >= 'a' && sigCar <= 'z' || sigCar >= 'A' && sigCar <= 'z';
+		return (sigCar >= 'a' && sigCar <= 'z' || sigCar >= 'A' && sigCar <= 'z');
+				/*
+				&& (sigCar != '[')
+				&& (sigCar != ']');
+				*/
 	}
 
 	private boolean hayDigitoPos() {
@@ -275,6 +279,8 @@ public class AnalizadorLexico {
 				else
 					error();
 				break;
+			case REC_SEP:
+				return unidadId();
 			case REC_ID:
 				if (hayLetra() || hayNumero() || hayGuionBajo())
 					transita(Estado.REC_ID);
