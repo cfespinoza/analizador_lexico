@@ -72,40 +72,11 @@ public class AnalizadorLexico {
 		classes.put("eof", ClaseLexica.EOF);
 		classes.put("EOF", ClaseLexica.EOF);
 
-		classes.put("#", ClaseLexica.SEP);
-		classes.put(";", ClaseLexica.SEMICOLON);
-		classes.put("[", ClaseLexica.APCOR);
-		classes.put("]", ClaseLexica.CICOR);
-		classes.put("&", ClaseLexica.AMPERSAN);
-		classes.put("(", ClaseLexica.APPAR);
-		classes.put(")", ClaseLexica.CIPAR);
-		classes.put(".", ClaseLexica.DOT);
-		classes.put("^", ClaseLexica.INVERTEDV);
-		classes.put(">", ClaseLexica.GREATERTHAN);
-		classes.put("<", ClaseLexica.LOWERTHAN);
-		classes.put(">=", ClaseLexica.GREATEREQ);
-		classes.put("<=", ClaseLexica.LOWERTHAN);
-		classes.put("==", ClaseLexica.EQUAL);
-		classes.put("!=", ClaseLexica.DISTINCT);
-		classes.put("||", ClaseLexica.OR);
-		classes.put("+", ClaseLexica.PLUS);
-		classes.put("-", ClaseLexica.MINUS);
-		classes.put("*", ClaseLexica.MULTI);
-		classes.put("/", ClaseLexica.DIVISION);
-		classes.put("%", ClaseLexica.MOD);
-		classes.put("&&", ClaseLexica.AND);
-		classes.put("!", ClaseLexica.NEGATION);
-		classes.put("=", ClaseLexica.ASSIG);
-
 		return classes;
 	}
 
 	private boolean hayLetra() {
 		return (sigCar >= 'a' && sigCar <= 'z' || sigCar >= 'A' && sigCar <= 'z');
-				/*
-				&& (sigCar != '[')
-				&& (sigCar != ']');
-				*/
 	}
 
 	private boolean hayDigitoPos() {
@@ -258,10 +229,12 @@ public class AnalizadorLexico {
 					transita(Estado.REC_PCOMA);
 				else if (hayInvertedV())
 					transita(Estado.REC_INVERTEDV);
-				
 				else if (hayMod())
 					transita(Estado.REC_MOD);
-				
+				if (hayCAper())
+					transita(Estado.REC_CAPER);
+				else if (hayCCierr())
+					transita(Estado.REC_CCIERR);
 				else if (hayAlmohadilla())
 					transita(Estado.REC_SEP);
 				else if (hayArroba())
@@ -270,22 +243,20 @@ public class AnalizadorLexico {
 					transitaIgnorando(Estado.INICIO);
 				else if (hayEOF())
 					transita(Estado.REC_EOF);
-				else if (hayCAper())
-					transita(Estado.REC_CAPER);
-				else if (hayCCierr())
-					transita(Estado.REC_CCIERR);
 				else if (hayBar())
 					transita(Estado.REC_BAR);
 				else
 					error();
 				break;
+			case REC_MOD:
+				return unidadMod();
 			case REC_SEP:
-				return unidadId();
+				return unidadSep();
 			case REC_ID:
 				if (hayLetra() || hayNumero() || hayGuionBajo())
 					transita(Estado.REC_ID);
 				else
-					return unidadVarId();
+					return unidadId();
 				break;
 			case REC_ENTERO:
 				if(hayNumero())
@@ -334,59 +305,59 @@ public class AnalizadorLexico {
 				break;				
 				
 			case REC_MAS:
-				return unidadId();
+				return unidadMas();
 			case REC_MENOS:
-				return unidadId();
+				return unidadMenos();
 			case REC_MUL:
-				return unidadId();
+				return unidadMul();
 			case REC_DIV:
-				return unidadId();
+				return unidadDiv();
 			case REC_PAP:
-				return unidadId();
+				return unidadApPar();
 			case REC_PCIERR:
-				return unidadId();
+				return unidadCiPar();
 			case REC_IGUAL:
 				if (hayIgual())
 					transita(Estado.REC_IGUALCOMP);
 				else
-					return unidadId();
+					return unidadAssig();
 				break;
 			case REC_MENOR:
 				if (hayIgual())
 					transita(Estado.REC_MENORIGUAL);
 				else
-					return unidadId();
+					return unidadMenor();
 				break;
 			case REC_MAYOR:
 				if (hayIgual())
 					transita(Estado.REC_MAYORIGUAL);
 				else
-					return unidadId();
+					return unidadMayor();
 				break;
 			case REC_MENORIGUAL:
-				return unidadId();
+				return unidadMenorIgual();
 			case REC_MAYORIGUAL:
-				return unidadId();
+				return unidadMayorIgual();
 			case REC_IGUALCOMP:
-				return unidadId();
+				return unidadEqual();
 			case REC_IDIST:
 				if (hayIgual())
 					transita(Estado.REC_DIST);
 				else 
-					unidadId();
+					unidadNeg();
 				break;
 			case REC_DIST:
-				return unidadId();
+				return unidadDistinto();
 			case REC_AMPER:
 				if (hayAmper())
 					transita(Estado.REC_2AMPER);
 				else
-					return unidadId();
+					return unidadAmpersan();
 				break;
 			case REC_2AMPER:
-				return unidadId();
+				return unidad2Amper();
 			case REC_PCOMA:
-				return unidadId();
+				return unidadPComa();
 			case REC_COM:
 				if (hayNL())
 					transitaIgnorando(Estado.INICIO);
@@ -402,15 +373,15 @@ public class AnalizadorLexico {
 				else error();
 				break;
 			case REC_2BAR:
-				return unidadId();
+				return unidad2Bar();
 			case REC_INVERTEDV:
-				return unidadId();
+				return unidadInvertedV();
 			case REC_CAPER:
-				return unidadId();
+				return unidadApCor();
 			case REC_CCIERR: 
-				return unidadId();
+				return unidadCiCor();
 			case REC_EOF:
-				return unidadId();
+				return unidadEof();
 			}
 		}
 	}
@@ -461,11 +432,127 @@ public class AnalizadorLexico {
 		sigCar = '\n';
 	}
 
+	
+	
+	private UnidadLexica unidadSep() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio, ClaseLexica.SEP);
+	}
+	
+	private UnidadLexica unidadPComa() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio, ClaseLexica.SEMICOLON);
+	}
+	
+	private UnidadLexica unidadApCor() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio, ClaseLexica.APCOR);
+	}
+	
+	private UnidadLexica unidadCiCor() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio, ClaseLexica.CICOR);
+	}
+	
+	private UnidadLexica unidadAmpersan() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio, ClaseLexica.AMPERSAN);
+	}
+
+	private UnidadLexica unidadApPar() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio, ClaseLexica.APPAR);
+	}
+
+	private UnidadLexica unidadCiPar() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio, ClaseLexica.CIPAR);
+	}
+	
+	private UnidadLexica unidadDot() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio, ClaseLexica.DOT);
+	}
+	
+	private UnidadLexica unidadMas() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio, ClaseLexica.PLUS);
+	}
+
+	private UnidadLexica unidadMenos() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.MINUS);
+	}
+
+	private UnidadLexica unidadMul() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.MULTI);
+	}
+
+	private UnidadLexica unidadDiv() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.DIVISION);
+	}
+
+	private UnidadLexica unidadInvertedV() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio, ClaseLexica.INVERTEDV);
+	}
+
+	private UnidadLexica unidadAssig() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.ASSIG);
+	}
+	
+	private UnidadLexica unidadEqual() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.EQUAL);
+	}
+
+	private UnidadLexica unidadMenor() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.LOWERTHAN);
+	}
+
+	private UnidadLexica unidadMayor() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.GREATERTHAN);
+	}
+
+	private UnidadLexica unidadMenorIgual() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.LOWEREQ);
+	}
+
+	private UnidadLexica unidadMayorIgual() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.GREATEREQ);
+	}
+
+	private UnidadLexica unidadDistinto() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.DISTINCT);
+	}
+
+	private UnidadLexica unidad2Amper() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.AND);
+	}
+	
+	private UnidadLexica unidad2Bar() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.OR);
+	}
+	
+	private UnidadLexica unidadNeg(){
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.NEGATION);
+	}
+	
+	private UnidadLexica unidadMod(){
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.MOD);
+	}
+
+	private UnidadLexica unidadEof() {
+		return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
+				ClaseLexica.EOF);
+	}
+	
 	private UnidadLexica unidadId() {
 		String auxLex = lex.toString();
 		if (clasesLexicasById.get(auxLex).equals(null)) {
-			return new UnidadLexicaMultivaluada(filaInicio, columnaInicio,
-					ClaseLexica.IDEN, lex.toString());
+			return unidadVarId();
 		} else {
 			return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
 					clasesLexicasById.get(auxLex));
