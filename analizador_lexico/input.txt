@@ -1,0 +1,6 @@
+int _prueba_1
+#
+@ esto es un comentario
+prueba_1 = 3e4
+prueba_2 = 3e-4
+(hola)[chau]!!_peor&&+-

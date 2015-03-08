@@ -5,8 +5,7 @@ public enum ClaseLexica {
 	SEP, 			// #
 	COMMENT, 		// @
 	SEMICOLON, 		// ;
-	VARID, 			// (letra|barrabaja)(letra|digito|barrabaja)*
-	IDEN,			// letra*
+	IDEN, 			// (letra|barrabaja)(letra|digito|barrabaja)*
 	TIPO, 			// tipo
 	INT,			// int
 	REAL, 			// real
@@ -28,9 +27,7 @@ public enum ClaseLexica {
 	APPAR, 			// (
 	CIPAR, 			// )
 	DOT, 			// .
-	FIELD, 			// letra*
 	INVERTEDV, 		// ^
-	// DESIGNADOR, 	// (THIS|SUPER|VAR)((PUNTO CAMPO)|(APCOR|CAMPO|CECOR)|(INVERTEDV))
 	GREATERTHAN, 	// >
 	LOWERTHAN, 		// <
 	GREATEREQ, 		// >=
@@ -45,7 +42,6 @@ public enum ClaseLexica {
 	MOD, 			// %
 	AND, 			// &&
 	NEGATION, 		// !
-	// CASTING, 	// (APPAR TIPO CIPAR)
 	NULL, 			// null	
 	ASSIG, 			// =
 	IN, 			// in
@@ -60,75 +56,18 @@ public enum ClaseLexica {
 	WHILE, 			// while
 	DO, 			// do
 	ENDWHILE, 		// endwhile
+	ARROBA,			// @
+	NUMBER,			// NUMENTERO | NUMREAL
 	
 	// AUXILIARES
 	
-	DIGIT,	 		// 0|POSDIGIT
+	NUMENTERO,	 	// POSDIGIT CERO
+	NUMREAL,		// 
+	CERO, 			// 0
 	UNDERSCORE,		// _
 	POSDIGIT,		// 1..9
 	EOF, 			// EOF
-	LETTER,			// (a..z|A..Z)
-	WORD, 			// (A..Z|a..z)+
-	
-	/*
-	FINDEC,
-	SEP,
-	TIPO,
-	INT,
-	REAL,
-	CAP,
-	CCIERRE,
-	REC,
-	ENDREC,
-	POINTER,
-	OBJECT,
-	ENOBJECT,
-	EXTENDS,
-	VAR,
-	END,
-	FUN,
-	METHOD,
-	RETURNS,
-	THIS,
-	SUPER,
-	PUNTO,
-	APUNTADOR,
-	MENOR,
-	MAYOR,
-	MENORIGUAL,
-	MAYORIGUAL,
-	IGUAL,
-	DISTINTO,
-	OR,
-	MAS,
-	MENOS,
-	POR,
-	DIV,
-	MOD,
-	AND,
-	NOT,
-	PAP,
-	PCIERRE,
-	NULL,
-	LITENTPOS,
-	ASIGN,
-	IN,
-	OUT,
-	ALLOC,
-	FREE,
-	IF,
-	ELSE,
-	ELSEIF,
-	THEN,
-	ENDIF,
-	WHILE,
-	DO,
-	ENDWHILE,
-	CARACTER,
-	// Clases auxiliares
-	DIGITOPOS,
-	BARRABAJA,
-	EOF
-	*/
+	LETTER			// (a..z|A..Z)
+
 }
 
