@@ -62,7 +62,7 @@ public enum ClaseLexica {
 	// AUXILIARES
 	
 	NUMENTERO,	 	// POSDIGIT CERO
-	NUMREAL,		// 
+	NUMREAL,		// digitoPos(digito)*(punto(digito)(digitoPos)*|e(digitoPos)(digito)*|e(menos)(digitoPos)(digito))
 	CERO, 			// 0
 	UNDERSCORE,		// _
 	POSDIGIT,		// 1..9
@@ -70,4 +70,3 @@ public enum ClaseLexica {
 	LETTER			// (a..z|A..Z)
 
 }
-

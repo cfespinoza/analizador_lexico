@@ -76,7 +76,7 @@ public class AnalizadorLexico {
 	}
 
 	private boolean hayLetra() {
-		return (sigCar >= 'a' && sigCar <= 'z' || sigCar >= 'A' && sigCar <= 'z');
+		return (sigCar >= 'a' && sigCar <= 'z' || sigCar >= 'A' && sigCar <= 'Z');
 	}
 
 	private boolean hayDigitoPos() {
@@ -231,7 +231,7 @@ public class AnalizadorLexico {
 					transita(Estado.REC_INVERTEDV);
 				else if (hayMod())
 					transita(Estado.REC_MOD);
-				if (hayCAper())
+				else if (hayCAper())
 					transita(Estado.REC_CAPER);
 				else if (hayCCierr())
 					transita(Estado.REC_CCIERR);
@@ -344,7 +344,7 @@ public class AnalizadorLexico {
 				if (hayIgual())
 					transita(Estado.REC_DIST);
 				else 
-					unidadNeg();
+					return unidadNeg();
 				break;
 			case REC_DIST:
 				return unidadDistinto();
@@ -551,7 +551,8 @@ public class AnalizadorLexico {
 	
 	private UnidadLexica unidadId() {
 		String auxLex = lex.toString();
-		if (clasesLexicasById.get(auxLex).equals(null)) {
+		ClaseLexica clase = clasesLexicasById.get(auxLex);
+		if (clase == null) {
 			return unidadVarId();
 		} else {
 			return new UnidadLexicaUnivaluada(filaInicio, columnaInicio,
